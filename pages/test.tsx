@@ -5,7 +5,9 @@ import React, { useEffect, useState } from 'react'
 import TestAnswer from '../components/TestAnswer'
 import ArrowFooter from '../components/ArrowFooter'
 import MainLayout from '../components/MainLayout'
-import { ActiveAnswer, TaskType } from '../models'
+import { ActiveAnswer, database, TaskType } from '../models'
+import * as dotenv from 'dotenv'
+import { connect, model, models, Schema } from 'mongoose'
 
 interface TestPageProps {
   taskTypes: TaskType[]
@@ -455,14 +457,58 @@ export default function TestPage({ taskTypes }: TestPageProps) {
 //   }
 // }
 
-export async function getStaticProps() {
-  const response = await fetch('http://localhost:3000/api/db')
-  const json: database = await response.json()
-  return {
-    props: json,
-  }
-}
+// export async function getStaticProps() {
+//   dotenv.config()
+//   const response = await fetch(process.env.BACKENDURI)
+//   const json: database = await response.json()
+//   return {
+//     props: json,
+//   }
+// }
 
-export interface database {
-  tasktypes: TaskType[]
+export async function getStaticProps() {
+  dotenv.config()
+  try {
+    console.log('connecting to Mongo...')
+    await connect(process.env.MONGOURI)
+    console.log('connected to Mongo!')
+    const mySchema = new Schema({
+      taskTypes: [
+        {
+          id: Number,
+          title: String,
+          description: String,
+          taskTests: [
+            {
+              id: Number,
+              title: String,
+              tasks: [
+                {
+                  id: Number,
+                  title: String,
+                  answers: [
+                    {
+                      id: Number,
+                      text: String,
+                      check: Boolean,
+                    },
+                  ],
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    })
+    const Test = models['TESTS'] || model('TESTS', mySchema, 'TESTS')
+    const result = await Test.findOne({ taskTypes: { $exists: true } })
+    return {
+      props: JSON.parse(JSON.stringify(result)),
+    }
+  } catch (error) {
+    console.log('My Error Message: ', error)
+    return {
+      props: JSON.parse(JSON.stringify(error)),
+    }
+  }
 }

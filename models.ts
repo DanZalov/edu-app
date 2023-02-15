@@ -26,3 +26,7 @@ export interface TaskType {
   description: string
   taskTests: TaskTest[]
 }
+
+export interface database {
+  tasktypes: TaskType[]
+}
