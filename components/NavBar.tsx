@@ -4,6 +4,7 @@ import vk from '../assets/vk_icon.svg'
 import tg from '../assets/tg_icon.svg'
 import mail from '../assets/mail_icon.svg'
 import exit from '../assets/Arrow-exit.svg'
+import Link from 'next/link'
 
 export default function NavBar() {
   return (
@@ -17,7 +18,7 @@ export default function NavBar() {
         </div>
         <div className="mr-5">ТЕОРИЯ</div>
         <div className="mr-5">ПРАКТИКУМ</div>
-        <div>ТЕСТЫ</div>
+        <Link href="/test">ТЕСТЫ</Link>
       </div>
       <div className="flex items-center">
         <div className="w-[45px] h-[40px] relative">
