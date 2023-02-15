@@ -39,23 +39,23 @@ export default function TestPage({ taskTypes }: TestPageProps) {
   const [activeTestBarItem, setActiveTestBarItem] = useState(0)
 
   const [answerArr, setAnswerArr] = useState([
-    { id: 1, text: 'Lorem ipsum dolor sit amet.', check: true, checked: false },
+    { id: 1, text: '', check: true, checked: false },
     {
       id: 2,
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Assumenda, dolorum.',
+      text: '',
       check: false,
       checked: false,
     },
     {
       id: 3,
-      text: 'Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorem libero porro quo tempora similique fugit?',
+      text: '',
       check: false,
       checked: false,
     },
-    { id: 4, text: 'Lorem, ipsum.', check: false, checked: false },
+    { id: 4, text: '', check: false, checked: false },
     {
       id: 5,
-      text: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsam nesciunt id nulla minima vel sunt qui debitis rerum consequuntur fugiat?',
+      text: '',
       check: false,
       checked: false,
     },
@@ -501,7 +501,9 @@ export async function getStaticProps() {
       ],
     })
     const Test = models['TESTS'] || model('TESTS', mySchema, 'TESTS')
+    console.log('fetching data...')
     const result = await Test.findOne({ taskTypes: { $exists: true } })
+    console.log('data fetched')
     return {
       props: JSON.parse(JSON.stringify(result)),
     }

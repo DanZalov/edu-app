@@ -38,8 +38,11 @@ export default async function db(req: NextApiRequest, res: NextApiResponse) {
       ],
     })
     const Test = models['TESTS'] || model('TESTS', mySchema, 'TESTS')
+    console.log('fetching data...')
     const result = await Test.findOne({ taskTypes: { $exists: true } })
-    res.end(JSON.stringify(result))
+    console.log('data fetched')
+    // res.end(JSON.stringify(result))
+    res.end('The database is migrated to Mongo')
   } catch (error) {
     console.log('My Error Message: ', error)
     res.end(JSON.stringify(error))
