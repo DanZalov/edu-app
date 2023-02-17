@@ -7,7 +7,7 @@ export default async function db(req: NextApiRequest, res: NextApiResponse) {
   res.setHeader('Content-Type', 'application/json')
   try {
     console.log('connecting to Mongo...')
-    await connect(process.env.MONGOURI)
+    await connect(process.env.MONGOURI.toString())
     console.log('connected to Mongo!')
     const mySchema = new Schema({
       taskTypes: [
