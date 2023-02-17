@@ -44,7 +44,6 @@ export default async function db(req: NextApiRequest, res: NextApiResponse) {
     // res.end(JSON.stringify(result))
     res.end('The database is migrated to Mongo')
   } catch (error) {
-    console.log('URI: ', process.env.MONGOURI)
     console.log('My Error Message: ', error)
     res.end(JSON.stringify(error))
   }
